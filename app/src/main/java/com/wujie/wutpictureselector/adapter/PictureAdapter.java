@@ -31,7 +31,7 @@ public class PictureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.mContext = mContext;
         this.pictureList = pictureList;
         pWidth = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE))
-                .getDefaultDisplay().getWidth() /4 ;
+                .getDefaultDisplay().getWidth() /3 ;
 
     }
 

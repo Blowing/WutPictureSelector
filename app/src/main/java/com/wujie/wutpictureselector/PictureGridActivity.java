@@ -30,7 +30,7 @@ public class PictureGridActivity extends AppCompatActivity {
     private void initView() {
         getPicrures();
         mRecyclerView = (RecyclerView) findViewById(R.id.picture_recycler);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mRecyclerView.setAdapter(new PictureAdapter(this, mAllPicturList));
     }
 
