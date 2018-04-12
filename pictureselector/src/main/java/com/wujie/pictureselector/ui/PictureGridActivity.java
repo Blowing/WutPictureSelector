@@ -1,11 +1,15 @@
 package com.wujie.pictureselector.ui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.wujie.pictureselector.R;
 import com.wujie.pictureselector.adapter.PictureAdapter;
@@ -25,6 +29,10 @@ public class PictureGridActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String ss = intent.getStringExtra("image");
+        SharedPreferences s = getSharedPreferences("picture", Context.MODE_PRIVATE);
+        Toast.makeText(this, s.getString("hehe", "你是个瓜娃子"), Toast.LENGTH_SHORT).show();
         setContentView(R.layout.activity_picture_grid);
         initView();
     }
