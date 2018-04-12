@@ -1,4 +1,4 @@
-package com.wujie.wutpictureselector;
+package com.wujie.pictureselector.ui;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.wujie.pictureselector.R;
+import com.wujie.pictureselector.adapter.PictureAdapter;
 import com.wujie.pictureselector.bean.Picture;
-import com.wujie.wutpictureselector.adapter.PictureAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class PictureGridActivity extends AppCompatActivity {
 
@@ -32,6 +34,7 @@ public class PictureGridActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.picture_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mRecyclerView.setAdapter(new PictureAdapter(this, mAllPicturList));
+
     }
 
     private void getPicrures() {

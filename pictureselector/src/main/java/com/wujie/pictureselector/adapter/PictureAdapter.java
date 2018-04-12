@@ -1,4 +1,4 @@
-package com.wujie.wutpictureselector.adapter;
+package com.wujie.pictureselector.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,8 +11,8 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.wujie.pictureselector.R;
 import com.wujie.pictureselector.bean.Picture;
-import com.wujie.wutpictureselector.R;
 
 import java.util.List;
 
