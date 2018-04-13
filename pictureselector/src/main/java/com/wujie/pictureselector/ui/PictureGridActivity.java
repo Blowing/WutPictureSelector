@@ -5,29 +5,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wujie.pictureselector.R;
+import com.wujie.pictureselector.adapter.FolderAdapter;
 import com.wujie.pictureselector.adapter.PictureAdapter;
 import com.wujie.pictureselector.base.BaseActivity;
 import com.wujie.pictureselector.bean.Picture;
+import com.wujie.pictureselector.bean.PictureFolder;
+import com.wujie.pictureselector.view.FolderPopupWindow;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class PictureGridActivity extends BaseActivity implements View.OnClickListener {
@@ -37,9 +36,12 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
     private TextView mDirTv;
 
 
+    private FolderAdapter folderAdapter;
+
     private List<Picture> mAllPicturList;
     private List<String> mDirList;
-    private Map<String, List<Picture>> mDirMap;
+    private List<PictureFolder> pictureFolders;
+    private LinkedHashMap<String, List<Picture>> mDirMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,8 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
                 projection, null, null, orderBy);
         mAllPicturList = new ArrayList<>();
         mDirList = new ArrayList<>();
-        mDirMap = new HashMap<>();
+        mDirMap = new LinkedHashMap<>();
+        pictureFolders = new ArrayList<>();
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
@@ -100,6 +103,7 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
                         cateName = picture.getPath().substring(secondLast + 1, last);
                     }
                     if (mDirMap.containsKey(cateName)) {
+
                         mDirMap.get(cateName).add(picture);
                     } else {
                         List<Picture> pictures = new ArrayList<>();
@@ -111,12 +115,19 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
             }
             cursor.close();
         }
-
-
-        for (String s : mDirMap.keySet()) {
-            Log.i("wujie", s);
+        PictureFolder pictureFolder = new PictureFolder();
+        pictureFolder.name = "全部图片";
+        pictureFolder.pictures = mAllPicturList;
+        pictureFolder.picture = mAllPicturList.get(0);
+        pictureFolders.add(pictureFolder);
+        for (String key:
+             mDirMap.keySet()) {
+            PictureFolder folder = new PictureFolder();
+            folder.name = key;
+            folder.pictures = mDirMap.get(key);
+            folder.picture = mDirMap.get(key).get(0);
+            pictureFolders.add(folder);
         }
-
 
     }
 
@@ -133,22 +144,16 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
 
     @SuppressLint("ResourceAsColor")
     private void showPictureDirPop() {
-        PopupWindow popupWindow = new PopupWindow();
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
-        TextView view = new TextView(this);
-        view.setText("你好吗");
-        view.setLayoutParams(new ViewGroup.LayoutParams(300,300));
-        view.setTextColor(R.color.ps_color_primary);
-        popupWindow.setContentView(view);
-        popupWindow.setHeight(600);
-        popupWindow.setWidth(500);
+        folderAdapter = new FolderAdapter(this, pictureFolders);
+        FolderPopupWindow popupWindow = new FolderPopupWindow(this, folderAdapter);
 
 
         if(popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
-            popupWindow.showAsDropDown(mDirLayout);
-//            popupWindow.showAtLocation(findViewById(R.id.foot_bar), Gravity.BOTTOM, 600, 500);
+            //popupWindow.showAsDropDown(mDirLayout);
+
+           popupWindow.showAtLocation(findViewById(R.id.foot_bar), Gravity.BOTTOM, 0, 0);
         }
     }
 }

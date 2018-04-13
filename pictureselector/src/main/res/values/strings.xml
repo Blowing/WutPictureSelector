@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">pictureselector</string>
+    <string name="folder_size">共%1$d张</string>
 </resources>
