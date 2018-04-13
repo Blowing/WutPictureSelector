@@ -23,6 +23,12 @@ public class FolderAdapter extends BaseAdapter {
     private Context mContext;
     private List<PictureFolder> folders;
 
+    public void setLastSelect(int lastSelect) {
+        this.lastSelect = lastSelect;
+    }
+
+    private int lastSelect = 0;
+
     public FolderAdapter(Context mContext, List<PictureFolder> folders) {
         this.mContext = mContext;
         this.folders = folders;
@@ -57,6 +63,11 @@ public class FolderAdapter extends BaseAdapter {
         holder.nameTv.setText(pictureFolder.name);
         holder.countTv.setText(mContext.getResources().getString(R.string.folder_size,
                 pictureFolder.pictures.size()));
+        if(position == lastSelect) {
+            holder.checkIv.setVisibility(View.VISIBLE);
+        } else {
+            holder.checkIv.setVisibility(View.GONE);
+        }
 
         return convertView;
     }

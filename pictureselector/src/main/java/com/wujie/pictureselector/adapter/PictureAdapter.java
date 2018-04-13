@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.wujie.pictureselector.R;
 import com.wujie.pictureselector.bean.Picture;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,6 +56,15 @@ public class PictureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
         return pictureList.size();
+    }
+
+    public void Refreash(List<Picture> datas) {
+        if(datas == null || datas.size() == 0) {
+            this.pictureList = new ArrayList<>();
+        } else {
+            this.pictureList = datas;
+        }
+        notifyDataSetChanged();
     }
 
     class PictureHolder extends RecyclerView.ViewHolder {

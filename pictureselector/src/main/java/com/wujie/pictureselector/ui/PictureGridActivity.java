@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
     private TextView mDirTv;
 
 
+    private PictureAdapter pictureAdapter;
     private FolderAdapter folderAdapter;
 
     private List<Picture> mAllPicturList;
@@ -59,7 +61,8 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         getPicrures();
         mRecyclerView = (RecyclerView) findViewById(R.id.picture_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        mRecyclerView.setAdapter(new PictureAdapter(this, mAllPicturList));
+        pictureAdapter = new PictureAdapter(this, mAllPicturList);
+        mRecyclerView.setAdapter(pictureAdapter);
 
     }
 
@@ -128,6 +131,7 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
             folder.picture = mDirMap.get(key).get(0);
             pictureFolders.add(folder);
         }
+        folderAdapter = new FolderAdapter(this, pictureFolders);
 
     }
 
@@ -144,9 +148,19 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
 
     @SuppressLint("ResourceAsColor")
     private void showPictureDirPop() {
-        folderAdapter = new FolderAdapter(this, pictureFolders);
-        FolderPopupWindow popupWindow = new FolderPopupWindow(this, folderAdapter);
 
+        final FolderPopupWindow popupWindow = new FolderPopupWindow(this, folderAdapter);
+        popupWindow.setItemClickListener(new FolderPopupWindow.ItemClickListener() {
+            @Override
+            public void onnItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FolderAdapter adapter = (FolderAdapter) parent.getAdapter();
+                adapter.setLastSelect(position);
+                PictureFolder folder = (PictureFolder) adapter.getItem(position);
+                pictureAdapter.Refreash(folder.pictures);
+                mDirTv.setText(folder.name);
+                popupWindow.dismiss();
+            }
+        });
 
         if(popupWindow.isShowing()) {
             popupWindow.dismiss();

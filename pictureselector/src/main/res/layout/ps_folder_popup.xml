@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#A000"
-    >
+    android:background="#A000">
 
     <ListView
         android:id="@+id/listView"
@@ -13,6 +12,7 @@
         android:layout_gravity="bottom"
         android:dividerHeight="1px"
         android:background="@android:color/white"
-        tools:listitem="@layout/ps_folder_item"/>
+        tools:listitem="@layout/ps_folder_item"
+        android:layout_marginBottom="50dp"/>
 
 </FrameLayout>
