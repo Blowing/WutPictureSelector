@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Created by wujie on 2018/4/13/013.
+ * 展示图片文件夹的Adapter
  */
 
 public class FolderAdapter extends BaseAdapter {

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">pictureselector</string>
     <string name="folder_size">共%1$d张</string>
+    <string name="max_count">最多可以选择%1$d张图片</string>
 </resources>
