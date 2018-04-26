@@ -40,6 +40,11 @@ public class PsPriviewAdapter extends PagerAdapter {
     }
 
     @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView((View) object);
+    }
+
+    @Override
     public int getCount() {
         int count = 0;
         if (pictures != null) {

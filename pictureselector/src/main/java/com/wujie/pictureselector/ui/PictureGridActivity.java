@@ -21,6 +21,7 @@ import com.wujie.pictureselector.R;
 import com.wujie.pictureselector.adapter.FolderAdapter;
 import com.wujie.pictureselector.adapter.PictureAdapter;
 import com.wujie.pictureselector.base.BaseActivity;
+import com.wujie.pictureselector.bean.PhotoAlbum;
 import com.wujie.pictureselector.bean.Picture;
 import com.wujie.pictureselector.bean.PictureFolder;
 import com.wujie.pictureselector.util.Utils;
@@ -179,8 +180,13 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onItemClick(int position, List<Picture> pictures) {
+        PhotoAlbum.pictures = pictures;
+        PhotoAlbum.index = position;
         Intent intent = new Intent();
         intent.setClass(this, PicturePriviewActivity.class);
+        startActivity(intent);
 
     }
+
+
 }
