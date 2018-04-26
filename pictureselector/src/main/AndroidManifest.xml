@@ -1,11 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wujie.pictureselector" >
-    <application >
+    package="com.wujie.pictureselector">
 
-        <activity android:name=".ui.PictureGridActivity"/>
-
+    <application>
+        <activity android:name=".ui.PictureGridActivity" />
+        <activity android:name=".ui.PicturePriviewActivity"></activity>
     </application>
-
-
 </manifest>
-

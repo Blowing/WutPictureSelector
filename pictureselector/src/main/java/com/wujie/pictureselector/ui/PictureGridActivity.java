@@ -23,14 +23,17 @@ import com.wujie.pictureselector.adapter.PictureAdapter;
 import com.wujie.pictureselector.base.BaseActivity;
 import com.wujie.pictureselector.bean.Picture;
 import com.wujie.pictureselector.bean.PictureFolder;
+import com.wujie.pictureselector.util.Utils;
 import com.wujie.pictureselector.view.FolderPopupWindow;
+import com.wujie.pictureselector.view.GridSpacingItemDecoration;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 
-public class PictureGridActivity extends BaseActivity implements View.OnClickListener {
+public class PictureGridActivity extends BaseActivity implements View.OnClickListener,
+        PictureAdapter.OnItemClickListener {
 
     private RecyclerView mRecyclerView;
     private RelativeLayout mDirLayout;
@@ -61,7 +64,10 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         getPicrures();
         mRecyclerView = (RecyclerView) findViewById(R.id.picture_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        mRecyclerView.addItemDecoration(new GridSpacingItemDecoration(3, Utils.dp2Px
+                (this, 2), false));
         pictureAdapter = new PictureAdapter(this, mAllPicturList);
+        pictureAdapter.setItemClickListener(this);
         mRecyclerView.setAdapter(pictureAdapter);
 
     }
@@ -169,5 +175,12 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
 
            popupWindow.showAtLocation(findViewById(R.id.foot_bar), Gravity.BOTTOM, 0, 0);
         }
+    }
+
+    @Override
+    public void onItemClick(int position, List<Picture> pictures) {
+        Intent intent = new Intent();
+        intent.setClass(this, PicturePriviewActivity.class);
+
     }
 }

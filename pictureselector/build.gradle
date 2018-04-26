@@ -22,7 +22,7 @@ android {
         }
     }
     repositories {
-        flatDir{
+        flatDir {
             dirs 'libs'
         }
     }
@@ -35,6 +35,6 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${cfgs.supportVersion}"
     implementation "com.android.support:recyclerview-v7:${cfgs.supportVersion}"
     implementation "com.github.bumptech.glide:glide:${cfgs.glide}"
-
-
+    implementation "com.github.chrisbanes:PhotoView:${cfgs.photoView}"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 }

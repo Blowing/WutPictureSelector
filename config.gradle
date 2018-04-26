@@ -4,6 +4,7 @@ ext {
             rxandroid     : "2.0.1",
             rxjava        : "2.0.8",
             rxpermissions : "0.9.5@aar",
-            glide         : "4.6.1"
+            glide         : "4.6.1",
+            photoView     : "2.1.3"
     ]
 }

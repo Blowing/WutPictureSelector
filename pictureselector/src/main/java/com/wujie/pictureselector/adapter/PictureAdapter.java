@@ -31,6 +31,12 @@ public class PictureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private List<Picture> selectList;
 
+    private OnItemClickListener itemClickListener;
+
+    public void setItemClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
     private int maxSelectCount = 9;
     private int pWidth = 0;
 
@@ -38,8 +44,8 @@ public class PictureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.mContext = mContext;
         this.pictureList = pictureList;
         this.selectList = new ArrayList<>();
-        pWidth = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE))
-                .getDefaultDisplay().getWidth() /3 ;
+        pWidth = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE))
+                .getDefaultDisplay().getWidth() / 3;
 
     }
 
@@ -47,13 +53,13 @@ public class PictureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View convertView = LayoutInflater.from(mContext).inflate(R.layout.ps_grid_item,
-                parent,false);
+                parent, false);
         return new PictureHolder(convertView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof PictureHolder) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof PictureHolder) {
             final PictureHolder pictureHolder = (PictureHolder) holder;
             final Picture picture = pictureList.get(position);
             boolean isCheck = selectList.contains(picture);
@@ -65,10 +71,10 @@ public class PictureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     boolean lastCheckSta = pictureHolder.checkBox.isChecked();
-                    if(!lastCheckSta && selectList.size() >= maxSelectCount) {
+                    if (!lastCheckSta && selectList.size() >= maxSelectCount) {
                         Toast.makeText(mContext, mContext.getResources().getString(R.string
                                 .max_count, maxSelectCount), Toast.LENGTH_SHORT).show();
-                    } else if (!lastCheckSta){
+                    } else if (!lastCheckSta) {
                         selectList.add(picture);
                         pictureHolder.checkBox.setChecked(true);
                         pictureHolder.maskView.setVisibility(View.VISIBLE);
@@ -80,6 +86,15 @@ public class PictureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 }
             });
+
+            pictureHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(itemClickListener != null) {
+                        itemClickListener.onItemClick(position, pictureList);
+                    }
+                }
+            });
         }
     }
 
@@ -89,7 +104,7 @@ public class PictureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void Refreash(List<Picture> datas) {
-        if(datas == null || datas.size() == 0) {
+        if (datas == null || datas.size() == 0) {
             this.pictureList = new ArrayList<>();
         } else {
             this.pictureList = datas;
@@ -103,6 +118,7 @@ public class PictureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private View maskView;
         private View checkView;
         private CheckBox checkBox;
+
         public PictureHolder(@NonNull View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.iv_pic);
@@ -111,6 +127,12 @@ public class PictureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             maskView = (View) itemView.findViewById(R.id.mask_view);
             checkView = (View) itemView.findViewById(R.id.check_view);
             checkBox = (CheckBox) itemView.findViewById(R.id.cb_check);
+
+
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, List<Picture> pictures);
     }
 }
